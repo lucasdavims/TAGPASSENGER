@@ -24,7 +24,7 @@ public class PassengerRepositorySQLite extends SQLiteOpenHelper {
     private static final int VERSAO = 1;
     private static final String TABELA = "PASSENGER";
     private static final String DATABASE = "TAGPASSENGER";
-    private static final String[] COLS = {"id", "cpf", "rg", "name", "instituition", "vehicle", "tag"};
+    private static final String[] COLS = {"id", "cpf", "rg", "name", "instituition", "tag"};
 
     public static synchronized PassengerRepositorySQLite getInstance(Context context){
 
@@ -41,30 +41,10 @@ public class PassengerRepositorySQLite extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        String ddl =
-                "CREATE TABLE " + TABELA +
-                        "(id INTEGER PRIMARY KEY," +
-                        " cpf TEXT NOT NULL," +
-                        " rg TEXT NOT NULL," +
-                        " name TEXT NOT NULL," +
-                        " instituition INTEGER" +
-                        " vehicle INTEGER" +
-                        " tag INTEGER" +
-                        " FOREIGN KEY(instituition) REFERENCES instituition(id)"+
-                        " FOREIGN KEY(vehicle) REFERENCES vehicle(id)"+
-                        " FOREIGN KEY(tag) REFERENCES tag(id)"+
-                        ");";
-        db.execSQL(ddl);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        String sql = "DROP TABLE IF EXISTS " + TABELA;
-        db.execSQL(sql);
-        onCreate(db);
-
     }
 
     /**
@@ -92,10 +72,6 @@ public class PassengerRepositorySQLite extends SQLiteOpenHelper {
             //set id of instituition
             instituition.setId(cursor.getLong(4));
             passenger.setInstituition(instituition);
-
-            //set id of vehicle
-            vehicle.setId(cursor.getLong(5));
-            passenger.setVehicle(vehicle);
 
             //set id of tag
             tag.setId(cursor.getLong(6));
@@ -129,10 +105,6 @@ public class PassengerRepositorySQLite extends SQLiteOpenHelper {
             //set id of instituition
             instituition.setId(cursor.getLong(4));
             passenger.setInstituition(instituition);
-
-            //set id of vehicle
-            vehicle.setId(cursor.getLong(5));
-            passenger.setVehicle(vehicle);
 
             //set id of tag
             tag.setId(cursor.getLong(6));

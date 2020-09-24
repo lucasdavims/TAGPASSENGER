@@ -15,17 +15,15 @@ public class Vehicle {
     private String placa;
     private String modelo;
     private Motorist motorist;
-    private List<Passenger> passengers;
 
     public Vehicle() {
     }
 
-    public Vehicle(Long id, String placa, String modelo, Motorist motorist, List<Passenger> passengers) {
+    public Vehicle(Long id, String placa, String modelo, Motorist motorist) {
         this.id = id;
         this.placa = placa;
         this.modelo = modelo;
         this.motorist = motorist;
-        this.passengers = passengers;
     }
 
     public Long getId() {
@@ -58,13 +56,5 @@ public class Vehicle {
 
     public void setMotorist(Motorist motorist) {
         this.motorist = motorist;
-    }
-
-    public List<Passenger> getPassengers() {
-        return passengers;
-    }
-
-    public void setPassengers(List<Passenger> passengers) {
-        this.passengers = passengers;
     }
 }

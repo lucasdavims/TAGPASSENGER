@@ -2,7 +2,10 @@ package com.br.tcc.tagpassenger.domain.passenger;
 
 import com.br.tcc.tagpassenger.domain.instituition.Instituition;
 import com.br.tcc.tagpassenger.domain.tag.Tag;
+import com.br.tcc.tagpassenger.domain.trip.Trip;
 import com.br.tcc.tagpassenger.domain.vehicle.Vehicle;
+
+import java.util.List;
 
 /**
  * Created by Davi on 08/09/2020.
@@ -15,19 +18,18 @@ public class Passenger {
     private String rg;
     private String name;
     private Instituition instituition;
-    private Vehicle vehicle;
     private Tag tag;
+    private List<Trip> trips;
 
     public Passenger() {
     }
 
-    public Passenger(Long id, String cpf, String rg, String name, Instituition instituition, Vehicle vehicle, Tag tag) {
+    public Passenger(Long id, String cpf, String rg, String name, Instituition instituition, Tag tag) {
         this.id = id;
         this.cpf = cpf;
         this.rg = rg;
         this.name = name;
         this.instituition = instituition;
-        this.vehicle = vehicle;
         this.tag = tag;
     }
 
@@ -69,14 +71,6 @@ public class Passenger {
 
     public void setInstituition(Instituition instituition) {
         this.instituition = instituition;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
     }
 
     public Tag getTag() {
