@@ -40,8 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_MOTORIST_NAME = "name";
 
     //Vehicle Table - column names
-    private static final String KEY_VEHICLE_PLACA = "placa";
-    private static final String KEY_VEHICLE_MODELO = "modelo";
+    private static final String KEY_VEHICLE_PLACA = "plate";
+    private static final String KEY_VEHICLE_MODELO = "model";
     private static final String KEY_MOTORIST_ID = "motorist_id";
 
     //Tag Table - column names
@@ -123,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             " );";
 
     DatabaseHelper(Context context) {
-        super(context,"",null,0);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
