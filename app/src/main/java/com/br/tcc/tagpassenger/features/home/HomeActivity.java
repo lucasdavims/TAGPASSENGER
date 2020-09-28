@@ -1,6 +1,8 @@
 package com.br.tcc.tagpassenger.features.home;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import com.br.tcc.tagpassenger.R;
 import com.br.tcc.tagpassenger.features.controlpassenger.ControlPassengerActivity;
+import com.br.tcc.tagpassenger.network.ArduinoBluetoothManager;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -49,6 +52,15 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        /**
+        ArduinoBluetoothManager arduinoBluetoothManager = ArduinoBluetoothManager.getInstance(getApplicationContext());
+        arduinoBluetoothManager.bluetoothOn();
+        arduinoBluetoothManager.discover();
+
+        registerReceiver(arduinoBluetoothManager.getBlReceiver(), new IntentFilter(BluetoothDevice.ACTION_FOUND));
+         **/
+
     }
 
 }

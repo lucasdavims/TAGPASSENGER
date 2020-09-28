@@ -14,16 +14,18 @@ public class Motorist {
     private String cpf;
     private String rg;
     private String cnh;
+    private String name;
     private List<Vehicle> vehicles;
 
     public Motorist() {
     }
 
-    public Motorist(Long id, String cpf, String rg, String cnh, List<Vehicle> vehicles) {
+    public Motorist(Long id, String cpf, String rg, String cnh, String name, List<Vehicle> vehicles) {
         this.id = id;
         this.cpf = cpf;
         this.rg = rg;
         this.cnh = cnh;
+        this.name = name;
         this.vehicles = vehicles;
     }
 
@@ -57,6 +59,14 @@ public class Motorist {
 
     public void setCnh(String cnh) {
         this.cnh = cnh;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Vehicle> getVehicles() {

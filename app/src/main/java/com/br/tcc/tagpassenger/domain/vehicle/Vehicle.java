@@ -12,17 +12,17 @@ import java.util.List;
 public class Vehicle {
 
     private Long id;
-    private String placa;
-    private String modelo;
+    private String plate;
+    private String model;
     private Motorist motorist;
 
     public Vehicle() {
     }
 
-    public Vehicle(Long id, String placa, String modelo, Motorist motorist) {
+    public Vehicle(Long id, String plate, String model, Motorist motorist) {
         this.id = id;
-        this.placa = placa;
-        this.modelo = modelo;
+        this.plate = plate;
+        this.model = model;
         this.motorist = motorist;
     }
 
@@ -34,20 +34,20 @@ public class Vehicle {
         this.id = id;
     }
 
-    public String getPlaca() {
-        return placa;
+    public String getPlate() {
+        return plate;
     }
 
-    public void setPlaca(String placa) {
-        this.placa = placa;
+    public void setPlate(String plate) {
+        this.plate = plate;
     }
 
-    public String getModelo() {
-        return modelo;
+    public String getModel() {
+        return model;
     }
 
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public Motorist getMotorist() {
