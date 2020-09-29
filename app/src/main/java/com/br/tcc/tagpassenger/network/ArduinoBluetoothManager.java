@@ -55,6 +55,8 @@ public class ArduinoBluetoothManager {
 
     public ArduinoBluetoothManager(Context context) {
         this.context = context;
+        this.mBTAdapter = BluetoothAdapter.getDefaultAdapter();
+        this.mBTArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1);
     }
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {

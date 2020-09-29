@@ -53,13 +53,13 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        /**
+
         ArduinoBluetoothManager arduinoBluetoothManager = ArduinoBluetoothManager.getInstance(getApplicationContext());
         arduinoBluetoothManager.bluetoothOn();
         arduinoBluetoothManager.discover();
 
         registerReceiver(arduinoBluetoothManager.getBlReceiver(), new IntentFilter(BluetoothDevice.ACTION_FOUND));
-         **/
+
 
     }
 

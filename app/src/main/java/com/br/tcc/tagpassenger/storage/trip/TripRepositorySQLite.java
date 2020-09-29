@@ -1,4 +1,4 @@
-package com.br.tcc.tagpassenger.storage.Trip;
+package com.br.tcc.tagpassenger.storage.trip;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
