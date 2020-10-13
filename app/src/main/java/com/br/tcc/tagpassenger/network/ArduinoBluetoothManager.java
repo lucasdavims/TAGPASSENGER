@@ -26,6 +26,8 @@ public class ArduinoBluetoothManager {
 
     private static final UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
+    private static final UUID BT_MODULE_UUID_SERVER = UUID.fromString("00001101-0000-1000-8000-00805F9B34FC");
+
     //instance of bluettoomanager
     private static ArduinoBluetoothManager sInstance;
 
@@ -57,16 +59,6 @@ public class ArduinoBluetoothManager {
         this.context = context;
         this.mBTAdapter = BluetoothAdapter.getDefaultAdapter();
         this.mBTArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1);
-    }
-
-    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
-        try {
-            final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", UUID.class);
-            return (BluetoothSocket) m.invoke(device, BT_MODULE_UUID);
-        } catch (Exception e) {
-            Log.e(ArduinoBluetoothManager.class.getName(), "Could not create Insecure RFComm Connection",e);
-        }
-        return  device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
     }
 
     public void bluetoothOn(){
@@ -118,7 +110,26 @@ public class ArduinoBluetoothManager {
 
                 Toast.makeText(getApplicationContext(), device.getName() + " - " + device.getAddress(), Toast.LENGTH_SHORT).show();
                 Log.e(ArduinoBluetoothManager.class.getName(),device.getName() + " - " + device.getAddress());
+
+                if(device.getName().contains("Raquel")){
+
+                    Toast.makeText(getApplicationContext(),"Connecting...  "+ device.getName() + " - " + device.getAddress(), Toast.LENGTH_SHORT).show();
+                    Log.e(ArduinoBluetoothManager.class.getName(),"Connecting...  "+device.getName() + " - " + device.getAddress());
+
+                    try {
+                        connect(device);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+            int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, -1);
+            if (bondState == BluetoothDevice.BOND_BONDED) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                device.getAddress();
+                //Trigger the sending via the above mentioned method
+            }
+
         }
     };
 
@@ -134,6 +145,65 @@ public class ArduinoBluetoothManager {
         }
         else
             Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean verifyIsPaired(BluetoothDevice deviceForCheck){
+        mBTArrayAdapter.clear();
+        mPairedDevices = mBTAdapter.getBondedDevices();
+        if(mBTAdapter.isEnabled()) {
+            // put it's one to the adapter
+            for (BluetoothDevice device : mPairedDevices) {
+                if (device.getAddress().equals(deviceForCheck.getAddress())) {
+                    Toast.makeText(getApplicationContext(), device.getName() +" is connected!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            }
+
+        }
+        else
+            Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
+
+        return false;
+    }
+
+    private void connect(BluetoothDevice deviceToConnect) throws IOException {
+
+        final String address = deviceToConnect.getAddress();
+        final String name = deviceToConnect.getName();
+
+        if(!mBTAdapter.isEnabled()) {
+            Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        boolean fail = false;
+
+        AcceptThread acceptThread = new AcceptThread(mBTAdapter, name, BT_MODULE_UUID);
+        acceptThread.start();
+
+        //if(!verifyIsPaired(deviceToConnect)){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        /*ConnectThread connectThread = new ConnectThread(mBTAdapter,deviceToConnect, BT_MODULE_UUID);
+        connectThread.start();*/
+        //}
+
+        boolean connected = deviceToConnect.createBond();
+
+        if(connected){
+            Toast.makeText(getApplicationContext(), "Bluetooth device conected", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getApplicationContext(), "Bluetooth device not pared", Toast.LENGTH_SHORT).show();
+        }
+
+       /* */
+        //deviceToConnect.
+
+
+
     }
 
     public BluetoothAdapter getmBTAdapter() {

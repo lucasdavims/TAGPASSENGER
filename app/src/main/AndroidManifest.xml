@@ -5,8 +5,10 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-    <!-- If your app targets Android 9 or lower, you can declare
-         ACCESS_COARSE_LOCATION instead. -->
+    <!--
+         If your app targets Android 9 or lower, you can declare
+         ACCESS_COARSE_LOCATION instead.
+    -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -28,6 +30,10 @@
         <activity
             android:name=".features.controlpassenger.ControlPassengerActivity"
             android:label="@string/title_activity_control_passenger"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".features.registerpassenger.RegisterPassengerActivity"
+            android:label="@string/title_activity_register_passenger"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

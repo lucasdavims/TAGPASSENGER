@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="Control Passenger" />
 
+    <item
+        android:id="@+id/navigation_register_passenger"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="Create Passenger" />
+
 </menu>

@@ -1,5 +1,6 @@
 package com.br.tcc.tagpassenger.storage.passenger;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -116,6 +117,23 @@ public class PassengerRepositorySQLite extends SQLiteOpenHelper {
         cursor.close();
 
         return null;
+    }
+
+    public Passenger persist(Passenger passenger) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLS[2], passenger.getCpf());
+        values.put(COLS[3], passenger.getRg());
+        values.put(COLS[4], passenger.getName());
+        values.put(COLS[5], passenger.getInstituition().getId());
+        values.put(COLS[6], passenger.getTag().getId());
+
+        Long  newId = getWritableDatabase().insert(TABELA, null, values);
+
+        passenger.setId(newId);
+
+        return passenger;
     }
 
 

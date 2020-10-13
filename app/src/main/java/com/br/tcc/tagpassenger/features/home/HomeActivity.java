@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.br.tcc.tagpassenger.R;
 import com.br.tcc.tagpassenger.features.controlpassenger.ControlPassengerActivity;
+import com.br.tcc.tagpassenger.features.registerpassenger.RegisterPassengerActivity;
 import com.br.tcc.tagpassenger.network.ArduinoBluetoothManager;
 
 public class HomeActivity extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.navigation, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -43,6 +46,16 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Option Control of passenger",
                         Toast.LENGTH_LONG).show();
                 return false;
+
+            case R.id.navigation_register_passenger:
+
+                Intent intent2 = new Intent(HomeActivity.this,
+                        RegisterPassengerActivity.class);
+                startActivity(intent2);
+
+                Toast.makeText(this, "Option Register passenger",
+                        Toast.LENGTH_LONG).show();
+                return false;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -56,9 +69,12 @@ public class HomeActivity extends AppCompatActivity {
 
         ArduinoBluetoothManager arduinoBluetoothManager = ArduinoBluetoothManager.getInstance(getApplicationContext());
         arduinoBluetoothManager.bluetoothOn();
-        arduinoBluetoothManager.discover();
 
         registerReceiver(arduinoBluetoothManager.getBlReceiver(), new IntentFilter(BluetoothDevice.ACTION_FOUND));
+
+        arduinoBluetoothManager.discover();
+
+
 
 
     }
