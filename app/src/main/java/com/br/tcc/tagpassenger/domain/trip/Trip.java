@@ -17,16 +17,18 @@ public class Trip {
     private Date end;
     private Vehicle vehicle;
     private List<Passenger> passengers;
+    private Trip trip;
 
     public Trip() {
     }
 
-    public Trip(Long id, Date begin, Date end, Vehicle vehicle, List<Passenger> passengers) {
+    public Trip(Long id, Date begin, Date end, Vehicle vehicle, List<Passenger> passengers, Trip trip) {
         this.id = id;
         this.begin = begin;
         this.end = end;
         this.vehicle = vehicle;
         this.passengers = passengers;
+        this.trip = trip;
     }
 
     public Long getId() {
@@ -68,4 +70,16 @@ public class Trip {
     public void setPassengers(List<Passenger> passengers) {
         this.passengers = passengers;
     }
+
+    public void startTrip(boolean going){
+        this.begin = new Date();
+
+
+        if (!going) {
+            //buscar viagem anterior setar fim
+            this.end = new Date();
+        }
+    }
+
+
 }

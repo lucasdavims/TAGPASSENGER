@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "TAGPASSENGER";
 
     //Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     //Table Names
     private static final String TABLE_INSTITUITION ="instituition";
@@ -97,8 +97,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "( "+KEY_ID+" INTEGER PRIMARY KEY," +
             " "+KEY_TRIP_BEGIN+" TEXT NOT NULL," +
             " "+KEY_TRIP_END+" TEXT NOT NULL," +
-            " "+KEY_MOTORIST_ID+" INTEGER" +
+            " "+KEY_VEHICLE_ID+" INTEGER," +
+            " "+KEY_TRIP_ID+" INTEGER" +
             " FOREIGN KEY("+KEY_VEHICLE_ID+") REFERENCES "+TABLE_VEHICLE+"("+KEY_ID+")"+
+            " FOREIGN KEY("+KEY_TRIP_ID+") REFERENCES "+TABLE_TRIP+"("+KEY_ID+")"+
             " );";
 
     private static final String CREATE_TABLE_PASSENGER = "CREATE TABLE " + TABLE_PASSENGER +

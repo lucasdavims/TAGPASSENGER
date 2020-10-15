@@ -7,13 +7,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.br.tcc.tagpassenger.R;
-import com.br.tcc.tagpassenger.features.controlpassenger.ControlPassengerActivity;
+import com.br.tcc.tagpassenger.features.controltrip.ControlTripActivity;
 import com.br.tcc.tagpassenger.features.registerpassenger.RegisterPassengerActivity;
-import com.br.tcc.tagpassenger.network.ArduinoBluetoothManager;
+import com.br.tcc.tagpassenger.network.bluetooth.ArduinoBluetoothManager;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -40,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.navigation_control_passenger:
 
                 Intent intent = new Intent(HomeActivity.this,
-                        ControlPassengerActivity.class);
+                        ControlTripActivity.class);
                 startActivity(intent);
 
                 Toast.makeText(this, "Option Control of passenger",

@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".features.controlpassenger.ControlPassengerActivity"
+            android:name=".features.controltrip.ControlPassengerActivity"
             android:label="@string/title_activity_control_passenger"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

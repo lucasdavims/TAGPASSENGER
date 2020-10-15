@@ -1,4 +1,4 @@
-package com.br.tcc.tagpassenger.network;
+package com.br.tcc.tagpassenger.network.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -11,10 +11,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.br.tcc.tagpassenger.features.home.HomeActivity;
-
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.UUID;
 

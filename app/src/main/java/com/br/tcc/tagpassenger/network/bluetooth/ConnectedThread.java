@@ -1,4 +1,4 @@
-package com.br.tcc.tagpassenger.network;
+package com.br.tcc.tagpassenger.network.bluetooth;
 
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
