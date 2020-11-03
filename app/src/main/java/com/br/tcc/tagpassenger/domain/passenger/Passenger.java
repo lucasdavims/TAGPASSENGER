@@ -21,6 +21,10 @@ public class Passenger {
     private Tag tag;
     private List<Trip> trips;
 
+    //transients
+    private boolean presentGoing;
+    private boolean presentBack;
+
     public Passenger() {
     }
 
@@ -79,5 +83,29 @@ public class Passenger {
 
     public void setTag(Tag tag) {
         this.tag = tag;
+    }
+
+    public List<Trip> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(List<Trip> trips) {
+        this.trips = trips;
+    }
+
+    public boolean isPresentGoing() {
+        return presentGoing;
+    }
+
+    public void setPresentGoing(boolean presentGoing) {
+        this.presentGoing = presentGoing;
+    }
+
+    public boolean isPresentBack() {
+        return presentBack;
+    }
+
+    public void setPresentBack(boolean presentBack) {
+        this.presentBack = presentBack;
     }
 }

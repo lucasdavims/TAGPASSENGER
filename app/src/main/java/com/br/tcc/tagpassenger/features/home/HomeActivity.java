@@ -13,6 +13,7 @@ import com.br.tcc.tagpassenger.R;
 import com.br.tcc.tagpassenger.features.controltrip.ControlTripActivity;
 import com.br.tcc.tagpassenger.features.registerpassenger.RegisterPassengerActivity;
 import com.br.tcc.tagpassenger.network.bluetooth.ArduinoBluetoothManager;
+import com.br.tcc.tagpassenger.storage.DatabaseHelper;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -36,13 +37,14 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Option Home",
                         Toast.LENGTH_LONG).show();
                 return false;
-            case R.id.navigation_control_passenger:
+            case R.id.navigation_control_trip:
 
                 Intent intent = new Intent(HomeActivity.this,
                         ControlTripActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
-                Toast.makeText(this, "Option Control of passenger",
+                Toast.makeText(this, "Option Control of trip",
                         Toast.LENGTH_LONG).show();
                 return false;
 
@@ -65,13 +67,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        DatabaseHelper DBHelper = new DatabaseHelper(getApplicationContext());
 
-        ArduinoBluetoothManager arduinoBluetoothManager = ArduinoBluetoothManager.getInstance(getApplicationContext());
+       /*ArduinoBluetoothManager arduinoBluetoothManager = ArduinoBluetoothManager.getInstance(getApplicationContext());
         arduinoBluetoothManager.bluetoothOn();
 
         registerReceiver(arduinoBluetoothManager.getBlReceiver(), new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
-        arduinoBluetoothManager.discover();
+        arduinoBluetoothManager.discover();*/
 
 
 

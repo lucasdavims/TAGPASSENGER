@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.br.tcc.tagpassenger.domain.tag.Tag;
+import com.br.tcc.tagpassenger.storage.DatabaseHelper;
 import com.br.tcc.tagpassenger.storage.instituition.InstituitionRepositorySQLite;
 
 /**
@@ -15,10 +16,10 @@ import com.br.tcc.tagpassenger.storage.instituition.InstituitionRepositorySQLite
 public class TagRepositorySQLite extends SQLiteOpenHelper {
 
     private static TagRepositorySQLite sInstance;
-    private static final int VERSAO = 1;
-    private static final String TABELA = "TAG";
-    private static final String DATABASE = "TAGPASSENGER";
-    private static final String[] COLS = {"id", "serialNumber", "passenger"};
+    public static final int VERSAO = DatabaseHelper.DATABASE_VERSION;
+    public static final String TABELA = DatabaseHelper.TABLE_TAG;
+    public static final String DATABASE = DatabaseHelper.DATABASE_NAME;
+    public static final String[] COLS = {DatabaseHelper.KEY_ID,DatabaseHelper.KEY_TAG_SERIAL_NUMBER, DatabaseHelper.KEY_PASSENGER_ID};
 
     public static synchronized TagRepositorySQLite getInstance(Context context){
 

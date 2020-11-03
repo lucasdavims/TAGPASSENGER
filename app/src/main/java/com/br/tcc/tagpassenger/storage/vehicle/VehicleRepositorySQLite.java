@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.br.tcc.tagpassenger.storage.instituition.InstituitionRepositorySQLite;
+import com.br.tcc.tagpassenger.storage.DatabaseHelper;
 
 /**
  * Created by Davi on 27/09/2020.
@@ -13,10 +13,10 @@ import com.br.tcc.tagpassenger.storage.instituition.InstituitionRepositorySQLite
 public class VehicleRepositorySQLite extends SQLiteOpenHelper {
 
     private static VehicleRepositorySQLite sInstance;
-    private static final int VERSAO = 1;
-    private static final String TABELA = "VEHICLE";
-    private static final String DATABASE = "TAGPASSENGER";
-    private static final String[] COLS = {"id", "placa", "modelo", "passengers"};
+    private static final int VERSAO = DatabaseHelper.DATABASE_VERSION;
+    public static final String TABELA = DatabaseHelper.TABLE_VEHICLE;
+    public static final String DATABASE = DatabaseHelper.DATABASE_NAME;
+    public static final String[] COLS = {DatabaseHelper.KEY_ID, DatabaseHelper.KEY_VEHICLE_PLATE, DatabaseHelper.KEY_VEHICLE_MODEL};
 
     public static synchronized VehicleRepositorySQLite getInstance(Context context){
 

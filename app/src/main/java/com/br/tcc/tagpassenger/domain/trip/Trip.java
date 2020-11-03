@@ -3,6 +3,7 @@ package com.br.tcc.tagpassenger.domain.trip;
 import com.br.tcc.tagpassenger.domain.passenger.Passenger;
 import com.br.tcc.tagpassenger.domain.vehicle.Vehicle;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,10 @@ public class Trip {
     private Trip trip;
 
     public Trip() {
+    }
+
+    public Trip(Long id) {
+        this.id = id;
     }
 
     public Trip(Long id, Date begin, Date end, Vehicle vehicle, List<Passenger> passengers, Trip trip) {
@@ -81,5 +86,16 @@ public class Trip {
         }
     }
 
+    public List<Trip> getMockTrips(){
 
+        return new ArrayList<>();
+    }
+
+    public Trip getTrip() {
+        return trip;
+    }
+
+    public void setTrip(Trip trip) {
+        this.trip = trip;
+    }
 }
