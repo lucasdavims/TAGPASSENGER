@@ -25,6 +25,8 @@ public class Passenger {
     private boolean presentGoing;
     private boolean presentBack;
 
+    private boolean landing;
+
     public Passenger() {
     }
 
@@ -107,5 +109,13 @@ public class Passenger {
 
     public void setPresentBack(boolean presentBack) {
         this.presentBack = presentBack;
+    }
+
+    public boolean isLanding() {
+        return landing;
+    }
+
+    public void setLanding(boolean landing) {
+        this.landing = landing;
     }
 }

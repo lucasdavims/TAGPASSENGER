@@ -36,6 +36,35 @@ public class GetCurrentTripUseCase {
 
         List<Passenger> passengersActual = passengerRepository.getByTripWithRelationships(trip);
 
+        int x = 0;
+        for (Passenger p:
+             passengersActual) {
+
+            if(x == 3){
+                p.setLanding(true);
+            }
+
+            if(x == 4){
+                p.setLanding(true);
+            }
+
+            if(x == 5){
+                p.setLanding(true);
+            }
+
+            if(x == 6){
+                p.setLanding(true);
+            }
+
+
+            p.setPresentGoing(true);
+
+
+            p.setPresentBack(true);
+
+            x++;
+        }
+
         //Make a check presence
         /*
         List<Passenger> passengersPast = new ArrayList<>();

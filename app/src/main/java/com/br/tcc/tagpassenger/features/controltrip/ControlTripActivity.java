@@ -274,6 +274,40 @@ public class ControlTripActivity extends AppCompatActivity {
 
             }
 
+            // data columns 2
+            final TextView tv5 = new TextView(this);
+            if (i == -1) {
+                tv5.setLayoutParams(new
+                        TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+                tv5.setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize);
+            }
+            else {
+                tv5.setLayoutParams(new
+                        TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                        TableRow.LayoutParams.MATCH_PARENT));
+                tv5.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+            }
+            tv5.setGravity(Gravity.LEFT);
+            tv5.setPadding(0, 15, 0, 15);
+            if (i == -1) {
+                tv5.setText("Desembarque");
+                tv5.setBackgroundColor(Color.parseColor("#f0f0f0"));
+            }
+            else {
+                tv5.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+                if(row.isLanding()){
+                    tv5.setBackgroundColor(Color.parseColor("#daf7da"));
+                    tv5.setTextColor(Color.parseColor("#000000"));
+                    tv5.setText("Sim");
+                }else{
+                    tv5.setBackgroundColor(Color.parseColor("#f7d5d5"));
+                    tv5.setTextColor(Color.parseColor("#000000"));
+                    tv5.setText("Não");
+                }
+
+            }
+
             // add table row
             final TableRow tr = new TableRow(this);
             tr.setId(i + 1);
@@ -291,6 +325,7 @@ public class ControlTripActivity extends AppCompatActivity {
             //tr.addView(layAmounts);
             tr.addView(tv2);
             tr.addView(tv4);
+            tr.addView(tv5);
 
             if (i > -1) {
                 tr.setOnClickListener(new View.OnClickListener() {

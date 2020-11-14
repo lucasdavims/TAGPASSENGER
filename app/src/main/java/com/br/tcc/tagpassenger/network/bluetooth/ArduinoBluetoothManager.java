@@ -38,8 +38,10 @@ public class ArduinoBluetoothManager {
     private ArrayAdapter<String> mBTArrayAdapter;
 
     private Handler mHandler; // Our main handler that will receive callback notifications
-    private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
+
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
+
+    private ConnectionThread connect;
 
     private Context context;
 
@@ -60,7 +62,8 @@ public class ArduinoBluetoothManager {
 
     public void bluetoothOn(){
         if (!mBTAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+
+            mBTAdapter.enable();
 
             Log.e(ArduinoBluetoothManager.class.getName(), "Bluetooth turned on");
             Toast.makeText(getApplicationContext(),"Bluetooth turned on",Toast.LENGTH_SHORT).show();
@@ -77,128 +80,17 @@ public class ArduinoBluetoothManager {
         Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
     }
 
-    public void discover(){
-        // Check if the device is already discovering
-        if(mBTAdapter.isDiscovering()){
-            mBTAdapter.cancelDiscovery();
-            Toast.makeText(getApplicationContext(),"Discovery stopped",Toast.LENGTH_SHORT).show();
-        }
-        else{
-            if(mBTAdapter.isEnabled()) {
-                mBTArrayAdapter.clear(); // clear items
-                mBTAdapter.startDiscovery();
-                Toast.makeText(getApplicationContext(), "Discovery started", Toast.LENGTH_SHORT).show();
-            }
-            else{
-                Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
-    final BroadcastReceiver blReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)){
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                // add the name to the list
-                mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-                mBTArrayAdapter.notifyDataSetChanged();
+    public void connect() throws IOException {
 
-                Toast.makeText(getApplicationContext(), device.getName() + " - " + device.getAddress(), Toast.LENGTH_SHORT).show();
-                Log.e(ArduinoBluetoothManager.class.getName(),device.getName() + " - " + device.getAddress());
+        connect = new ConnectionThread("78:44:05:92:82:D2");
+        connect.start();
 
-                if(device.getName().contains("Raquel")){
-
-                    Toast.makeText(getApplicationContext(),"Connecting...  "+ device.getName() + " - " + device.getAddress(), Toast.LENGTH_SHORT).show();
-                    Log.e(ArduinoBluetoothManager.class.getName(),"Connecting...  "+device.getName() + " - " + device.getAddress());
-
-                    try {
-                        connect(device);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, -1);
-            if (bondState == BluetoothDevice.BOND_BONDED) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                device.getAddress();
-                //Trigger the sending via the above mentioned method
-            }
-
-        }
-    };
-
-    private void listPairedDevices(){
-        mBTArrayAdapter.clear();
-        mPairedDevices = mBTAdapter.getBondedDevices();
-        if(mBTAdapter.isEnabled()) {
-            // put it's one to the adapter
-            for (BluetoothDevice device : mPairedDevices)
-                mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-
-            Toast.makeText(getApplicationContext(), "Show Paired Devices", Toast.LENGTH_SHORT).show();
-        }
-        else
-            Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
-    }
-
-    private boolean verifyIsPaired(BluetoothDevice deviceForCheck){
-        mBTArrayAdapter.clear();
-        mPairedDevices = mBTAdapter.getBondedDevices();
-        if(mBTAdapter.isEnabled()) {
-            // put it's one to the adapter
-            for (BluetoothDevice device : mPairedDevices) {
-                if (device.getAddress().equals(deviceForCheck.getAddress())) {
-                    Toast.makeText(getApplicationContext(), device.getName() +" is connected!", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            }
-
-        }
-        else
-            Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
-
-        return false;
-    }
-
-    private void connect(BluetoothDevice deviceToConnect) throws IOException {
-
-        final String address = deviceToConnect.getAddress();
-        final String name = deviceToConnect.getName();
-
-        if(!mBTAdapter.isEnabled()) {
-            Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        boolean fail = false;
-
-        AcceptThread acceptThread = new AcceptThread(mBTAdapter, name, BT_MODULE_UUID);
-        acceptThread.start();
-
-        //if(!verifyIsPaired(deviceToConnect)){
         try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.sleep(1000);
+        } catch (Exception E) {
+            E.printStackTrace();
         }
-
-        /*ConnectThread connectThread = new ConnectThread(mBTAdapter,deviceToConnect, BT_MODULE_UUID);
-        connectThread.start();*/
-        //}
-
-        boolean connected = deviceToConnect.createBond();
-
-        if(connected){
-            Toast.makeText(getApplicationContext(), "Bluetooth device conected", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(getApplicationContext(), "Bluetooth device not pared", Toast.LENGTH_SHORT).show();
-        }
-
-       /* */
-        //deviceToConnect.
-
 
 
     }
@@ -235,24 +127,12 @@ public class ArduinoBluetoothManager {
         this.mHandler = mHandler;
     }
 
-    public ConnectedThread getmConnectedThread() {
-        return mConnectedThread;
-    }
-
-    public void setmConnectedThread(ConnectedThread mConnectedThread) {
-        this.mConnectedThread = mConnectedThread;
-    }
-
     public BluetoothSocket getmBTSocket() {
         return mBTSocket;
     }
 
     public void setmBTSocket(BluetoothSocket mBTSocket) {
         this.mBTSocket = mBTSocket;
-    }
-
-    public BroadcastReceiver getBlReceiver() {
-        return blReceiver;
     }
 
     private Context getApplicationContext() {

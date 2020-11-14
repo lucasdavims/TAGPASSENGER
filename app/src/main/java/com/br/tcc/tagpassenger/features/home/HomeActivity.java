@@ -15,6 +15,8 @@ import com.br.tcc.tagpassenger.features.registerpassenger.RegisterPassengerActiv
 import com.br.tcc.tagpassenger.network.bluetooth.ArduinoBluetoothManager;
 import com.br.tcc.tagpassenger.storage.DatabaseHelper;
 
+import java.io.IOException;
+
 public class HomeActivity extends AppCompatActivity {
 
     @Override
@@ -69,14 +71,14 @@ public class HomeActivity extends AppCompatActivity {
 
         DatabaseHelper DBHelper = new DatabaseHelper(getApplicationContext());
 
-       /*ArduinoBluetoothManager arduinoBluetoothManager = ArduinoBluetoothManager.getInstance(getApplicationContext());
+       ArduinoBluetoothManager arduinoBluetoothManager = ArduinoBluetoothManager.getInstance(getApplicationContext());
         arduinoBluetoothManager.bluetoothOn();
 
-        registerReceiver(arduinoBluetoothManager.getBlReceiver(), new IntentFilter(BluetoothDevice.ACTION_FOUND));
-
-        arduinoBluetoothManager.discover();*/
-
-
+        try {
+            arduinoBluetoothManager.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
