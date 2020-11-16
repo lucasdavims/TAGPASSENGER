@@ -2,9 +2,11 @@ package com.br.tcc.tagpassenger.storage.tag;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.br.tcc.tagpassenger.domain.passenger.Passenger;
 import com.br.tcc.tagpassenger.domain.tag.Tag;
 import com.br.tcc.tagpassenger.storage.DatabaseHelper;
 import com.br.tcc.tagpassenger.storage.instituition.InstituitionRepositorySQLite;
@@ -42,6 +44,25 @@ public class TagRepositorySQLite extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+    public Tag getTagBySerialNumber(String rfidTag){
+        Cursor cursor = getWritableDatabase().query(TABELA, COLS,
+                DatabaseHelper.KEY_TAG_SERIAL_NUMBER + "=?",new String[] {String.valueOf(rfidTag)},null,null,null,null);
+        Tag tag = new Tag();
+        Passenger passenger;
+        while(cursor.moveToNext())
+        {
+            passenger = new Passenger();
+            tag.setId(cursor.getLong(0));
+            tag.setSerialNumber(cursor.getString(1));
+            passenger.setId(cursor.getLong(2));
+            tag.setPassenger(passenger);
+            return tag;
+        }
+
+        return null;
 
     }
 

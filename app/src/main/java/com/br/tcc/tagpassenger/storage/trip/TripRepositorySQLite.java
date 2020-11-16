@@ -50,6 +50,7 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
 
     }
 
+
     public Trip getCurrentTrip(){
         Cursor cursor = getWritableDatabase().query(TABELA, COLS,
                 "begin is not null AND end is null",null,null,null,null,null);
@@ -86,6 +87,17 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
         }
 
         return trip;
+    }
+
+    public Trip getCurrentTripByPassengerId(Long passengerId){
+        Cursor cursor = getWritableDatabase().rawQuery("select t.id, t.trip_id from trip t " +
+                "join trip_passenger tp " +
+                "on t.id = tp.trip_id " +
+                "join passenger p " +
+                "on p.id = tp.passenger_id " +
+                "where t.end is null and " +
+                "p.id = ?",new String[]{String.valueOf(passengerId)});
+        return null;
     }
 
     public Vehicle getVehicleById(Long id){

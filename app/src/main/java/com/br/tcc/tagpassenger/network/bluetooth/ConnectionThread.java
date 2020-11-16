@@ -217,12 +217,10 @@ public class ConnectionThread extends Thread{
     antes de ser enviado.
      */
     private void toMainActivity(byte[] data) {
+        String rfidTag = new String(data); //HEX
+        // Verifica se presença ida está setadaSetar presença no passageiro
 
-        Message message = new Message();
-        Bundle bundle = new Bundle();
-        bundle.putByteArray("data", data);
-        message.setData(bundle);
-        //HomeActivity.handler.sendMessage(message);
+
     }
 
     /*  Método utilizado pela Activity principal para transmitir uma mensagem ao
