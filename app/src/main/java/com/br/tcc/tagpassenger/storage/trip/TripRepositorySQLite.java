@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.br.tcc.tagpassenger.domain.passenger.Passenger;
 import com.br.tcc.tagpassenger.domain.trip.Trip;
 import com.br.tcc.tagpassenger.domain.vehicle.Vehicle;
 import com.br.tcc.tagpassenger.storage.DatabaseHelper;
@@ -83,10 +85,10 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
                 //no converterDate
             }
 
-
+            return trip;
         }
 
-        return trip;
+        return null;
     }
 
     public Trip getCurrentTripByPassengerId(Long passengerId){
@@ -97,6 +99,48 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
                 "on p.id = tp.passenger_id " +
                 "where t.end is null and " +
                 "p.id = ?",new String[]{String.valueOf(passengerId)});
+        //falta cursor
+        Trip currentTrip = new Trip();
+        Trip pastTrip = new Trip();
+        while (cursor.moveToNext()){
+            currentTrip.setId(cursor.getLong(0));
+            pastTrip.setId(cursor.getLong(1));
+            currentTrip.setTrip(pastTrip);
+            return currentTrip;
+        }
+
+
+        return null;
+    }
+
+    public Void embarqueVoltaPassageiro(Long idViagemVolta, Long idPassenger,Long idViagemIda){
+        Cursor cursor = getWritableDatabase().rawQuery("select tp.id from trip t " +
+                "join trip_passenger tp " +
+                "on t.id = tp.trip_id " +
+                "join passenger p " +
+                "on p.id = tp.passenger_id " +
+                "where p.id = ? and t.id = ?",new String[]{String.valueOf(idPassenger),String.valueOf(idViagemIda)});
+
+        boolean isPresenteIda = false;
+        while(cursor.moveToNext()){
+            isPresenteIda = true;
+        }
+        String insert = "";
+        if(isPresenteIda){
+            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES ("+idPassenger+","+idViagemVolta+",'S','S')";
+
+        }else{
+            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES ("+idPassenger+","+idViagemVolta+",'N','S')";
+        }
+        getWritableDatabase().execSQL(insert);
+        return null;
+    }
+
+    public Void embarqueIdaPassageiro(Long idViagemIda,Long idPassenger){
+
+        String insert = "";
+        insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES ("+idPassenger+","+idViagemIda+",'N','S')";
+        getWritableDatabase().execSQL(insert);
         return null;
     }
 

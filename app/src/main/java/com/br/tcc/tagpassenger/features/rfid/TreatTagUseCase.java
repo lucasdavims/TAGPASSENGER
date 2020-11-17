@@ -2,11 +2,15 @@ package com.br.tcc.tagpassenger.features.rfid;
 
 import android.content.Context;
 
+import com.br.tcc.tagpassenger.domain.passenger.Passenger;
 import com.br.tcc.tagpassenger.domain.tag.Tag;
 import com.br.tcc.tagpassenger.domain.trip.Trip;
 import com.br.tcc.tagpassenger.storage.passenger.PassengerRepositorySQLite;
 import com.br.tcc.tagpassenger.storage.tag.TagRepositorySQLite;
 import com.br.tcc.tagpassenger.storage.trip.TripRepositorySQLite;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TreatTagUseCase {
     PassengerRepositorySQLite passengerRepository;
@@ -25,25 +29,23 @@ public class TreatTagUseCase {
         if(tag != null){
             if(tag.getPassenger() != null){
                 Trip trip = tripRepository.getCurrentTripByPassengerId(tag.getPassenger().getId());
-                if(trip != null){
-                    if(trip.getTrip() != null){
-                        // embarque volta
-                        //adicionar passageiro a viagem atual
-                        //
-
-                        /*
-                         */
-                    }else{
-                        //embarque ida
-
-                        /*
-
-                        */
+                if(trip == null){
+                    trip = tripRepository.getCurrentTrip();
+                    if(trip != null){
+                        if(trip.getTrip() != null){
+                            // embarque volta
+                            tripRepository.embarqueVoltaPassageiro(trip.getId(),tag.getPassenger().getId(),trip.getTrip().getId());
+                        }else{
+                            //embarque ida
+                            tripRepository.embarqueIdaPassageiro(trip.getId(),tag.getPassenger().getId());
+                        }
                     }
                 }else{
-                    //realizar embarque e em seguida marcar presença
+                    //Implementação futura de tratamento caso não exista viagem vigente e a leitura da tag seja efetuada.
                 }
 
+            }else{
+                //Tag Não está associada a nenhum passageiro
             }
         }
 
@@ -54,7 +56,7 @@ public class TreatTagUseCase {
         return this.rfidTag;
     }
 
-    void setRfidTag(String rfidTag){
+    public void setRfidTag(String rfidTag){
         this.rfidTag = rfidTag;
     }
 }

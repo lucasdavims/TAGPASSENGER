@@ -142,7 +142,7 @@ public class PassengerRepositorySQLite extends SQLiteOpenHelper {
     }
 
     public List<Passenger> getByTripWithRelationships(Trip trip) {
-        String searchTripPassengers = "Select * from "+TABELA+" p " +
+        String searchTripPassengers = "Select p.*,tp.present_going,tp.present_back,tp.landed from "+TABELA+" p " +
                                         "Join "+TABELA_TRIP_PASSENGER+ " tp on (p.id = tp.passenger_id)" +
                                         "Where tp.trip_id = ? ";
 
@@ -157,11 +157,11 @@ public class PassengerRepositorySQLite extends SQLiteOpenHelper {
                 p.setCpf(c.getString(1));
                 p.setRg(c.getString(2));
                 p.setName(c.getString(3));
-
                 p.setInstituition(getInstituitionById(c.getLong(4)));
-
                 p.setTag(getTagById(c.getLong(5)));
-
+                p.setPresentBack(toBoolean(c.getString(6)));
+                p.setPresentGoing(toBoolean(c.getString(7)));
+                p.setLanding(toBoolean(c.getString(8)));
                 passengers.add(p);
 
                 // Do something Here with values
@@ -171,6 +171,10 @@ public class PassengerRepositorySQLite extends SQLiteOpenHelper {
         }
 
         return passengers;
+    }
+
+    private boolean toBoolean(String b){
+        return b != null && b.equals("S") ? true : false;
     }
 
 

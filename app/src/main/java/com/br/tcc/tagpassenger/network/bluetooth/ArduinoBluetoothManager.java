@@ -83,7 +83,7 @@ public class ArduinoBluetoothManager {
 
     public void connect() throws IOException {
 
-        connect = new ConnectionThread("20:16:01:06:31:47");
+        connect = new ConnectionThread("20:16:01:06:31:47",this.context);
         connect.start();
 
         try {

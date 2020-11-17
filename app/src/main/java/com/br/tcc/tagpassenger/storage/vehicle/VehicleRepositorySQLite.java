@@ -1,9 +1,12 @@
 package com.br.tcc.tagpassenger.storage.vehicle;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.br.tcc.tagpassenger.domain.motorist.Motorist;
+import com.br.tcc.tagpassenger.domain.vehicle.Vehicle;
 import com.br.tcc.tagpassenger.storage.DatabaseHelper;
 
 /**
@@ -27,6 +30,25 @@ public class VehicleRepositorySQLite extends SQLiteOpenHelper {
         return sInstance;
     }
 
+
+    public Vehicle getVeiculo() {
+
+        String query = "select * from vehicle";
+        Cursor c = getWritableDatabase().rawQuery(query, null);
+        Vehicle vehicle = new Vehicle();
+        Motorist motorist = new Motorist();
+
+        if (c.moveToFirst()) {
+            do {
+                vehicle.setId(c.getLong(0));
+                vehicle.setPlate(c.getString(1));
+                vehicle.setModel(c.getString(2));
+                motorist.setId(c.getLong(3));
+                vehicle.setMotorist(motorist);
+            } while (c.moveToNext());
+        }
+        return vehicle;
+    }
 
     public VehicleRepositorySQLite(Context context) {
         super(context, DATABASE, null, VERSAO);

@@ -4,10 +4,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 
 import com.br.tcc.tagpassenger.features.home.HomeActivity;
+import com.br.tcc.tagpassenger.features.rfid.TreatTagUseCase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,11 +34,12 @@ public class ConnectionThread extends Thread{
     boolean server;
     boolean running = false;
     boolean isConnected = false;
+    Context context;
 
     /*  Este construtor prepara o dispositivo para atuar como servidor.
      */
-    public ConnectionThread() {
-
+    public ConnectionThread(Context context) {
+        this.context = context;
         this.server = true;
     }
 
@@ -44,8 +47,8 @@ public class ConnectionThread extends Thread{
         Tem como argumento uma string contendo o endereço MAC do dispositivo
     Bluetooth para o qual deve ser solicitada uma conexão.
      */
-    public ConnectionThread(String btDevAddress) {
-
+    public ConnectionThread(String btDevAddress,Context context) {
+        this.context = context;
         this.server = false;
         this.btDevAddress = btDevAddress;
     }
@@ -218,8 +221,13 @@ public class ConnectionThread extends Thread{
      */
     private void toMainActivity(byte[] data) {
         String rfidTag = new String(data); //HEX
-        // Verifica se presença ida está setadaSetar presença no passageiro
-
+        TreatTagUseCase treatTagUseCase = new TreatTagUseCase(this.context);
+        treatTagUseCase.setRfidTag(rfidTag);
+        try {
+            treatTagUseCase.execute();
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
 
     }
 

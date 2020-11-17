@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "TAGPASSENGER";
 
     //Database Version
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 6;
 
     //Table Names
     public static final String TABLE_INSTITUITION ="instituition";
@@ -61,7 +61,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Trip_Passenger Table - column names
     public static final String KEY_TRIP_ID = "trip_id";
-
+    public static final String KEY_PRESENT_BACK = "present_back";
+    public static final String KEY_PRESENT_GOING = "present_going";
+    public static final String KEY_LANDED = "landed";
 
     private static final String CREATE_TABLE_INSTITUITION = "CREATE TABLE " + TABLE_INSTITUITION +
             "( "+KEY_ID+" INTEGER PRIMARY KEY," +
@@ -94,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_TRIP = "CREATE TABLE " + TABLE_TRIP +
             "( "+KEY_ID+" INTEGER PRIMARY KEY," +
-            " "+KEY_TRIP_BEGIN+" TEXT NOT NULL," +
+            " " +KEY_TRIP_BEGIN+ " TEXT NOT NULL," +
             " "+KEY_TRIP_END+" TEXT," +
             " "+KEY_VEHICLE_ID+" INTEGER NOT NULL," +
             " "+KEY_TRIP_ID+" INTEGER," +
@@ -117,9 +119,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "( "+KEY_ID+" INTEGER PRIMARY KEY," +
             " "+KEY_PASSENGER_ID+" INTEGER," +
             " "+KEY_TRIP_ID+" INTEGER," +
+            " "+ KEY_LANDED + " TEXT," +
+            " "+ KEY_PRESENT_GOING + " TEXT," +
+            " "+ KEY_PRESENT_BACK + " TEXT," +
+
             " FOREIGN KEY("+KEY_PASSENGER_ID+") REFERENCES "+TABLE_PASSENGER+"("+KEY_ID+"),"+
             " FOREIGN KEY("+KEY_TRIP_ID+") REFERENCES "+TABLE_TRIP+"("+KEY_ID+")"+
-            " );";
+            " );";//Falta os campos de controle de presença
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -149,27 +155,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO MOTORIST (id,cpf,rg,cnh,name) VALUES (1,'628.543.380-14','41.521.025-2','37139627764','Fábio Juan Nunes')");
         db.execSQL("INSERT INTO MOTORIST (id,cpf,rg,cnh,name) VALUES (2,'885.253.665-52','48.932.002-8','58383053820','Erick Sebastião Bryan Sales')");
 
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (1,null,'09002E4EA2CB')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (2,null,'03001G2GC5DA')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (3,null,'07003C4CE2TX')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (4,null,'02006H2HJ5NM')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (5,null,'01005Z4ZS2YP')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (6,null,'05007U2UK5MX')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (7,null,'03302E4EA2CB')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (8,null,'02201G2GC5DA')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (9,null,'04403C4CE2TX')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (10,null,'05506H2HJ5NM')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (11,null,'06605Z4ZS2YP')");
-        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (12,null,'07707U2UK5MX')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (1,1,'B5B71453000')");//Marcelo
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (2,2,'71891D0000')");//Lucas
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (3,3,'07003C4CE2TX')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (4,4,'02006H2HJ5NM')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (5,5,'01005Z4ZS2YP')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (6,6,'05007U2UK5MX')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (7,7,'03302E4EA2CB')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (8,8,'02201G2GC5DA')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (9,9,'04403C4CE2TX')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (10,10,'05506H2HJ5NM')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (11,11,'06605Z4ZS2YP')");
+        db.execSQL("INSERT INTO TAG (id,passenger_id,serial_number) VALUES (12,12,'07707U2UK5MX')");
 
         db.execSQL("INSERT INTO VEHICLE (id,motorist_id,plate,model) VALUES (1,1,'NAL-6496','Buggy Plus 1.6 8V')");
         db.execSQL("INSERT INTO VEHICLE (id,motorist_id,plate,model) VALUES (2,2,'FAW-0087','HOVER CUV 2.4 16V 5p Mec')");
 
-        db.execSQL("INSERT INTO TRIP (id,vehicle_id,begin,end,trip_id) VALUES (1,1,'2020-11-02 10:20:05.123', '2020-11-02 18:35:09.563',null)");
+        /*db.execSQL("INSERT INTO TRIP (id,vehicle_id,begin,end,trip_id) VALUES (1,1,'2020-11-02 10:20:05.123', '2020-11-02 18:35:09.563',null)");
         db.execSQL("INSERT INTO TRIP (id,vehicle_id,begin,end,trip_id) VALUES (2,1,'2020-11-03 10:10:00.242', null,1)");
+        db.execSQL("INSERT INTO TRIP (id,vehicle_id,begin,end,trip_id) VALUES (2,1,'2020-11-03 10:10:00.242', null,null)");*/
 
-        db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (1,1,1,'348.098.242-50','23.795.983-5','Eduardo Kevin da Luz')");
-        db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (2,1,2,'915.539.636-44','14.397.382-4','Yasmin Elisa Isabela Gonçalves')");
+        db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (1,1,1,'348.098.242-50','23.795.983-5','Marcelo Pimentel Silva')");
+        db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (2,1,2,'915.539.636-44','14.397.382-4','Lucas Davi Matias Pau no cu')");
         db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (3,2,3,'698.864.417-20','34.105.323-5','Henrique Marcos Vinicius de Paula')");
         db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (4,2,4,'937.683.365-14','50.099.269-1','Davi Theo Bryan Barbosa')");
         db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (5,3,5,'909.314.686-63','32.996.645-5','Julia Stefany Gomes')");
@@ -181,23 +188,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (11,6,11,'542.184.424-28','46.850.730-9','Priscila Beatriz Assunção')");
         db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (12,6,12,'440.816.666-95','22.882.862-4','Gustavo Murilo Enzo Nascimento')");
 
-        db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (1,1,1)");
+        /*db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (1,1,1)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (2,2,1)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (3,3,1)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (4,4,1)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (5,5,1)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (6,6,1)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (7,7,1)");
-        db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (8,8,1)");
+        db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (8,8,1)");*/
 
-        db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (9,1,2)");
+        /*db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (9,1,2)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (10,2,2)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (15,7,2)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (16,8,2)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (17,9,2)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (18,10,2)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (19,11,2)");
-        db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (20,12,2)");
+        db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (20,12,2)");*/
 
 
 

@@ -36,54 +36,27 @@ public class GetCurrentTripUseCase {
 
         List<Passenger> passengersActual = passengerRepository.getByTripWithRelationships(trip);
 
-        int x = 0;
-        for (Passenger p:
-             passengersActual) {
-
-            if(x == 3){
-                p.setLanding(true);
-            }
-
-            if(x == 4){
-                p.setLanding(true);
-            }
-
-            if(x == 5){
-                p.setLanding(true);
-            }
-
-            if(x == 6){
-                p.setLanding(true);
-            }
-
-
-            p.setPresentGoing(true);
-
-
-            p.setPresentBack(true);
-
-            x++;
+        List<Passenger> passengersPast = new ArrayList<>();
+        List<Passenger> listaFinal = new ArrayList<>();
+        if(trip.getTrip() != null){
+            passengersPast = passengerRepository.getByTripWithRelationships(trip.getTrip());
         }
 
-        //Make a check presence
-        /*
-        List<Passenger> passengersPast = new ArrayList<>();
-
-        List<Passenger> passengersResult = new ArrayList<>();;
-
-
-        if (trip.getTrip() != null) {
-            passengersPast = passengerRepository.getByTripWithRelationships(new Trip(trip.getTrip().getId()));
-            for (Passenger p : passengersActual) {
-                p.setPresentGoing(passengersPast.contains(p));
-                p.setPresentBack(true);
-
-            }
-            for (Passenger p : passengersPast){
-                passengersActual.contains(p)
-                p.setPresentBack();
-            }
-        }*/
+            for (Passenger passengerAnterior : passengersPast) {
+                boolean flag = false;
+                for (Passenger passengerAtual : passengersActual) {
+                    if(passengerAtual.getId() == passengerAnterior.getId()){
+                        flag = true;
+                        break;
+                    }
+                }
+                if(!flag){
+                    passengersActual.add(passengerAnterior);
+                }
+        }
+            /*if(passengersActual.size() == 0){
+                passengersActual.addAll(passengersPast);
+            }*/
 
         CurrentTripDto currentTrip = new CurrentTripDto();
         currentTrip.setTrip(trip);
@@ -98,62 +71,5 @@ public class GetCurrentTripUseCase {
         return currentTrip;
     }
 
-    public CurrentTripDto mockDataTest(){
-        CurrentTripDto currentTrip = new CurrentTripDto();
 
-        Passenger passenger1 = new Passenger(1L,
-                "837272332",
-                "111",
-                "Lucas Davi Matias Siqueira",
-                new Instituition(1L,
-                        "Uvv",
-                        "R. peralta santos, 1001",
-                        null),
-                new Tag());
-        passenger1.setPresentGoing(true);
-
-
-        Passenger passenger2 = new Passenger(1L,
-                "53323423",
-                "222",
-                "Marcelo Pimentel",
-                new Instituition(
-                        1L,
-                        "Faesa",
-                        "Av. vitoria, 1302",
-                        null),
-                new Tag());
-        passenger2.setPresentGoing(true);
-
-        Passenger passenger3 = new Passenger(1L,
-                "53323423",
-                "222",
-                "Raquel Emanuelle Leite Reis",
-                new Instituition(
-                        1L,
-                        "Multivix",
-                        "Av. Fernando Ferrari, 204",
-                        null),
-                new Tag());
-
-        currentTrip.setPassengers(Arrays.asList(
-                passenger1,
-                passenger2,
-                passenger3
-
-        ));
-
-        currentTrip.setTrip(
-                new Trip(1L,
-                        new Date(),
-                        new Date(),
-                        new Vehicle(
-                                1L,
-                                "12312",
-                                "12312",
-                                null),
-                        null, null));
-
-        return currentTrip;
-    }
 }
