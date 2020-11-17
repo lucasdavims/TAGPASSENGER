@@ -30,6 +30,11 @@ public class Passenger {
     public Passenger() {
     }
 
+    public Passenger(Long id) {
+        this.id = id;
+    }
+
+
     public Passenger(Long id, String cpf, String rg, String name, Instituition instituition, Tag tag) {
         this.id = id;
         this.cpf = cpf;

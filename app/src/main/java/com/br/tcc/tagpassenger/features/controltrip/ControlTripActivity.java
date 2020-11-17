@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -296,6 +297,24 @@ public class ControlTripActivity extends AppCompatActivity {
             }
             else {
                 tv5.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+                tv5.setId(row.getId().intValue());
+                tv5.setClickable(true);
+                tv5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        DisembarkPassengerUseCase disembarkPassengerUC = new DisembarkPassengerUseCase(getApplicationContext());
+                        disembarkPassengerUC.setPassengerId(v.getId());
+
+                        try {
+                            disembarkPassengerUC.execute();
+
+                            startLoadData();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 if(row.isLanding()){
                     tv5.setBackgroundColor(Color.parseColor("#daf7da"));
                     tv5.setTextColor(Color.parseColor("#000000"));

@@ -28,9 +28,9 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
     public static final String DATABASE = DatabaseHelper.DATABASE_NAME;
     public static final String[] COLS = {DatabaseHelper.KEY_ID, DatabaseHelper.KEY_TRIP_BEGIN, DatabaseHelper.KEY_TRIP_END, DatabaseHelper.KEY_VEHICLE_ID, DatabaseHelper.KEY_TRIP_ID};
 
-    public static synchronized TripRepositorySQLite getInstance(Context context){
+    public static synchronized TripRepositorySQLite getInstance(Context context) {
 
-        if (sInstance == null){
+        if (sInstance == null) {
             sInstance = new TripRepositorySQLite(context.getApplicationContext());
         }
 
@@ -53,21 +53,21 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
     }
 
 
-    public Trip getCurrentTrip(){
+    public Trip getCurrentTrip() {
         Cursor cursor = getWritableDatabase().query(TABELA, COLS,
-                "begin is not null AND end is null",null,null,null,null,null);
+                "begin is not null AND end is null", null, null, null, null, null);
 
         Trip trip = new Trip();
 
         DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
 
             trip.setId(cursor.getLong(0));
             try {
                 trip.setBegin(iso8601Format.parse(cursor.getString(1)));
             } catch (Exception e) {
-               //no converterDate
+                //no converterDate
             }
             try {
                 trip.setEnd(iso8601Format.parse(cursor.getString(2)));
@@ -78,7 +78,7 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
             trip.setVehicle(getVehicleById(cursor.getLong(3)));
 
             try {
-                if(cursor.getLong(4) > 0){
+                if (cursor.getLong(4) > 0) {
                     trip.setTrip(new Trip(cursor.getLong(4)));
                 }
             } catch (Exception e) {
@@ -91,18 +91,18 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
         return null;
     }
 
-    public Trip getCurrentTripByPassengerId(Long passengerId){
+    public Trip getCurrentTripByPassengerId(Long passengerId) {
         Cursor cursor = getWritableDatabase().rawQuery("select t.id, t.trip_id from trip t " +
                 "join trip_passenger tp " +
                 "on t.id = tp.trip_id " +
                 "join passenger p " +
                 "on p.id = tp.passenger_id " +
                 "where t.end is null and " +
-                "p.id = ?",new String[]{String.valueOf(passengerId)});
+                "p.id = ?", new String[]{String.valueOf(passengerId)});
         //falta cursor
         Trip currentTrip = new Trip();
         Trip pastTrip = new Trip();
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             currentTrip.setId(cursor.getLong(0));
             pastTrip.setId(cursor.getLong(1));
             currentTrip.setTrip(pastTrip);
@@ -113,38 +113,38 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
         return null;
     }
 
-    public Void embarqueVoltaPassageiro(Long idViagemVolta, Long idPassenger,Long idViagemIda){
+    public Void embarqueVoltaPassageiro(Long idViagemVolta, Long idPassenger, Long idViagemIda) {
         Cursor cursor = getWritableDatabase().rawQuery("select tp.id from trip t " +
                 "join trip_passenger tp " +
                 "on t.id = tp.trip_id " +
                 "join passenger p " +
                 "on p.id = tp.passenger_id " +
-                "where p.id = ? and t.id = ?",new String[]{String.valueOf(idPassenger),String.valueOf(idViagemIda)});
+                "where p.id = ? and t.id = ?", new String[]{String.valueOf(idPassenger), String.valueOf(idViagemIda)});
 
         boolean isPresenteIda = false;
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             isPresenteIda = true;
         }
         String insert = "";
-        if(isPresenteIda){
-            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES ("+idPassenger+","+idViagemVolta+",'S','S')";
+        if (isPresenteIda) {
+            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES (" + idPassenger + "," + idViagemVolta + ",'S','S')";
 
-        }else{
-            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES ("+idPassenger+","+idViagemVolta+",'N','S')";
+        } else {
+            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES (" + idPassenger + "," + idViagemVolta + ",'N','S')";
         }
         getWritableDatabase().execSQL(insert);
         return null;
     }
 
-    public Void embarqueIdaPassageiro(Long idViagemIda,Long idPassenger){
+    public Void embarqueIdaPassageiro(Long idViagemIda, Long idPassenger) {
 
         String insert = "";
-        insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES ("+idPassenger+","+idViagemIda+",'N','S')";
+        insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES (" + idPassenger + "," + idViagemIda + ",'N','S')";
         getWritableDatabase().execSQL(insert);
         return null;
     }
 
-    public Vehicle getVehicleById(Long id){
+    public Vehicle getVehicleById(Long id) {
         Vehicle v = new Vehicle();
         if (id != null) {
 
@@ -161,7 +161,7 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
         return v;
     }
 
-    public int update(Trip trip){
+    public int update(Trip trip) {
 
         ContentValues args = new ContentValues();
 
@@ -169,7 +169,7 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
 
         args.put(COLS[1], dateFormat.format(trip.getBegin().getTime()));
 
-        if(trip.getEnd() != null)
+        if (trip.getEnd() != null)
             args.put(COLS[2], dateFormat.format(trip.getEnd()));
 
         args.put(COLS[3], trip.getVehicle().getId());
@@ -177,17 +177,17 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
         if (trip.getTrip() != null)
             args.put(COLS[4], trip.getTrip().getId());
 
-        return getWritableDatabase().update(TABELA, args,"ID=?",
-                new String[] {String.valueOf(trip.getId())});
+        return getWritableDatabase().update(TABELA, args, "ID=?",
+                new String[]{String.valueOf(trip.getId())});
     }
 
-    public Trip persist(Trip trip){
+    public Trip persist(Trip trip) {
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         values.put(COLS[1], dateFormat.format(trip.getBegin().getTime()));
 
-        if(trip.getEnd() != null)
+        if (trip.getEnd() != null)
             values.put(COLS[2], dateFormat.format(trip.getEnd()));
 
         values.put(COLS[3], trip.getVehicle().getId());
@@ -200,5 +200,16 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
         trip.setId(result);
 
         return trip;
+    }
+
+    public int disembarkPassenger(Trip trip, Passenger passenger) {
+
+        ContentValues args = new ContentValues();
+
+        args.put(DatabaseHelper.KEY_LANDED, "S");
+
+        return getWritableDatabase().update(DatabaseHelper.TABLE_TRIP_PASSENGER, args, DatabaseHelper.KEY_PASSENGER_ID + "=?"
+                + " AND " + DatabaseHelper.KEY_TRIP_ID + "=?", new String[]{String.valueOf(passenger.getId()), String.valueOf(trip.getId())});
+
     }
 }

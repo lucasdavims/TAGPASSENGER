@@ -143,7 +143,7 @@ public class ConnectionThread extends Thread{
             ...
          */
 
-        if(btSocket != null) {
+        if(btSocket != null && btSocket.isConnected()) {
 
             /*  Envia um código para a Activity principal informando que a
             a conexão ocorreu com sucesso.
