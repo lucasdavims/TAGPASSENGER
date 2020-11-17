@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "TAGPASSENGER";
 
     //Database Version
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 9;
 
     //Table Names
     public static final String TABLE_INSTITUITION ="instituition";

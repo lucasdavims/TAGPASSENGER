@@ -307,9 +307,13 @@ public class ControlTripActivity extends AppCompatActivity {
                         disembarkPassengerUC.setPassengerId(v.getId());
 
                         try {
-                            disembarkPassengerUC.execute();
+                            
+                            if(!tv5.getText().equals("Sim")){
+                                disembarkPassengerUC.execute();
 
-                            startLoadData();
+                                startLoadData();
+                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
