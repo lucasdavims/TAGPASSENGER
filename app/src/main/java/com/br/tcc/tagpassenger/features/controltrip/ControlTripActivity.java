@@ -135,7 +135,7 @@ public class ControlTripActivity extends AppCompatActivity {
 
         int rows = currentTrip.getPassengers().size();
         String tipoViagem = "Ida";
-        if(currentTrip.getTrip() != null){
+        if(currentTrip.getTrip().getTrip() != null){
             tipoViagem = "Volta";
         }
 
@@ -326,7 +326,6 @@ public class ControlTripActivity extends AppCompatActivity {
                             
                             if(!tv5.getText().equals("Sim")){
                                 disembarkPassengerUC.execute();
-
                                 startLoadData();
                             }
 
@@ -400,7 +399,7 @@ public class ControlTripActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Integer... params) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

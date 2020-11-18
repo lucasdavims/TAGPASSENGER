@@ -51,6 +51,7 @@ public class GetCurrentTripUseCase {
                     }
                 }
                 if(!flag){
+                    passengerAnterior.setLanding(false);
                     passengersActual.add(passengerAnterior);
                 }
         }

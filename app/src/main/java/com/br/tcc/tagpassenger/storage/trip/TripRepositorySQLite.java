@@ -127,10 +127,10 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
         }
         String insert = "";
         if (isPresenteIda) {
-            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES (" + idPassenger + "," + idViagemVolta + ",'S','S')";
+            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back,landed) VALUES (" + idPassenger + "," + idViagemVolta + ",'S','S','N')";
 
         } else {
-            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES (" + idPassenger + "," + idViagemVolta + ",'N','S')";
+            insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back,landed) VALUES (" + idPassenger + "," + idViagemVolta + ",'N','S','N')";
         }
         getWritableDatabase().execSQL(insert);
         return null;
@@ -139,7 +139,7 @@ public class TripRepositorySQLite extends SQLiteOpenHelper {
     public Void embarqueIdaPassageiro(Long idViagemIda, Long idPassenger) {
 
         String insert = "";
-        insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back) VALUES (" + idPassenger + "," + idViagemIda + ",'N','S')";
+        insert = "INSERT INTO TRIP_PASSENGER(passenger_id,trip_id,present_going,present_back,landed) VALUES (" + idPassenger + "," + idViagemIda + ",'N','S','N')";
         getWritableDatabase().execSQL(insert);
         return null;
     }

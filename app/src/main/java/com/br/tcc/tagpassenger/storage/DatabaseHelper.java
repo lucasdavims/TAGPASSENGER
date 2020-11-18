@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "TAGPASSENGER";
 
     //Database Version
-    public static final int DATABASE_VERSION = 9;
+    public static final int DATABASE_VERSION = 10;
 
     //Table Names
     public static final String TABLE_INSTITUITION ="instituition";
@@ -173,7 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         /*db.execSQL("INSERT INTO TRIP (id,vehicle_id,begin,end,trip_id) VALUES (1,1,'2020-11-02 10:20:05.123', '2020-11-02 18:35:09.563',null)");
         db.execSQL("INSERT INTO TRIP (id,vehicle_id,begin,end,trip_id) VALUES (2,1,'2020-11-03 10:10:00.242', null,1)");*/
-        db.execSQL("INSERT INTO TRIP (id,vehicle_id,begin,end,trip_id) VALUES (1,1,'2020-11-03 10:10:00.242', null,null)");
+        /*db.execSQL("INSERT INTO TRIP (id,vehicle_id,begin,end,trip_id) VALUES (1,1,'2020-11-03 10:10:00.242', null,null)");*/
 
         db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (1,1,1,'348.098.242-50','23.795.983-5','Marcelo Pimentel Silva')");
         db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (2,1,2,'915.539.636-44','14.397.382-4','Lucas Davi Matias Pau no cu')");
@@ -188,8 +188,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (11,6,11,'542.184.424-28','46.850.730-9','Priscila Beatriz Assunção')");
         db.execSQL("INSERT INTO PASSENGER (id,instituition_id,tag_id,cpf,rg,name) VALUES (12,6,12,'440.816.666-95','22.882.862-4','Gustavo Murilo Enzo Nascimento')");
 
-        db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (1,1,1)");
-        db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (2,2,1)");
+        /*db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (1,1,1)");
+        db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (2,2,1)");*/
         /*db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (3,3,1)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (4,4,1)");
         db.execSQL("INSERT INTO TRIP_PASSENGER(id,passenger_id,trip_id) VALUES (5,5,1)");
