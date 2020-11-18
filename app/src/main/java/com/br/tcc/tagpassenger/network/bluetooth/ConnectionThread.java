@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 
+import com.br.tcc.tagpassenger.features.controltrip.ControlTripActivity;
 import com.br.tcc.tagpassenger.features.home.HomeActivity;
 import com.br.tcc.tagpassenger.features.rfid.TreatTagUseCase;
 
@@ -225,6 +226,11 @@ public class ConnectionThread extends Thread{
         treatTagUseCase.setRfidTag(rfidTag);
         try {
             treatTagUseCase.execute();
+            Message message = new Message();
+            Bundle bundle = new Bundle();
+            bundle.putString("data", rfidTag);
+            message.setData(bundle);
+            ControlTripActivity.handler.sendMessage(message);
         }catch (Exception e ){
             e.printStackTrace();
         }

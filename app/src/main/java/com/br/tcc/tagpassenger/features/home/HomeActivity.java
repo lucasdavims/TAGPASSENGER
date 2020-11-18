@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.br.tcc.tagpassenger.R;
@@ -64,13 +65,37 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    protected void controlTrip(){
+        Intent intent = new Intent(HomeActivity.this,
+                ControlTripActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        startActivity(intent);
+    }
+
+    protected void continueTrip(){
+        Intent intent2 = new Intent(HomeActivity.this,
+                RegisterPassengerActivity.class);
+        startActivity(intent2);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         DatabaseHelper DBHelper = new DatabaseHelper(getApplicationContext());
-
+        findViewById(R.id.btnNewTrip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controlTrip();
+            }
+        });
+        findViewById(R.id.btnContinueTrip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                continueTrip();
+            }
+        });
        ArduinoBluetoothManager arduinoBluetoothManager = ArduinoBluetoothManager.getInstance(getApplicationContext());
         arduinoBluetoothManager.bluetoothOn();
 

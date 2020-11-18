@@ -11,21 +11,27 @@
     app:layout_scrollFlags="scroll"
     tools:context="com.br.tcc.tagpassenger.features.controltrip.ControlTripActivity">
 
-    <ScrollView
-        android:id="@+id/scroll"
-        style="@android:style/Widget.DeviceDefault.Light.ScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbarStyle="insideOverlay"
-        android:visibility="visible">
 
-        <TableLayout
-            android:id="@+id/tableTrips"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scroll"
+            style="@android:style/Widget.DeviceDefault.Light.ScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="0dp"
-            android:stretchColumns="*"
-            android:visibility="visible"></TableLayout>
-    </ScrollView>
+            android:scrollbarStyle="insideOverlay"
+            android:visibility="visible">
+
+            <TableLayout
+                android:id="@+id/tableTrips"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="0dp"
+                android:stretchColumns="*"
+                android:visibility="visible"></TableLayout>
+        </ScrollView>
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>

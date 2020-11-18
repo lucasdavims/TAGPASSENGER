@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
@@ -38,7 +40,7 @@ public class ControlTripActivity extends AppCompatActivity {
     private Dialog mDialog;
     private GetCurrentTripUseCase getCurrentTripUseCase;
     private StartNewTripUseCase startNewTripUseCase;
-
+    public static Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,13 @@ public class ControlTripActivity extends AppCompatActivity {
 
         getCurrentTripUseCase = new GetCurrentTripUseCase(getApplicationContext());
         startNewTripUseCase = new StartNewTripUseCase(getApplicationContext());
-
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                startLoadData();
+            }
+        };
         mDialog = new Dialog(this);
         mProgressBar = new ProgressDialog(this);
         mTableLayout = (TableLayout) findViewById(R.id.tableTrips);
@@ -92,7 +100,11 @@ public class ControlTripActivity extends AppCompatActivity {
         mDialog.show();
 
 
+
+
     }
+
+
 
     public void startLoadData() {
         mProgressBar.setCancelable(false);
@@ -122,9 +134,13 @@ public class ControlTripActivity extends AppCompatActivity {
         List<Passenger> data = currentTrip.getPassengers();
 
         int rows = currentTrip.getPassengers().size();
+        String tipoViagem = "Ida";
+        if(currentTrip.getTrip() != null){
+            tipoViagem = "Volta";
+        }
 
         //set number of passengers
-        getSupportActionBar().setTitle("Passageiros (" + rows + ")");
+        getSupportActionBar().setTitle("Passageiros (" + rows + ") - Viagem de " + tipoViagem);
 
         //Formarter configs
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");

@@ -18,6 +18,7 @@ public class TreatTagUseCase {
     TripRepositorySQLite tripRepository;
     String rfidTag;
 
+
     public TreatTagUseCase(Context context) {
         passengerRepository = PassengerRepositorySQLite.getInstance(context);
         tagRepository = TagRepositorySQLite.getInstance(context);
@@ -39,6 +40,7 @@ public class TreatTagUseCase {
                             //embarque ida
                             tripRepository.embarqueIdaPassageiro(trip.getId(),tag.getPassenger().getId());
                         }
+
                     }
                 }else{
                     //Implementação futura de tratamento caso não exista viagem vigente e a leitura da tag seja efetuada.
