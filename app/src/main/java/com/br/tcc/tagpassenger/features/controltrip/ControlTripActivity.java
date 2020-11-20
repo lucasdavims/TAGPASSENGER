@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -26,6 +27,7 @@ import com.br.tcc.tagpassenger.domain.passenger.Passenger;
 import com.br.tcc.tagpassenger.domain.trip.Trip;
 import com.br.tcc.tagpassenger.features.home.HomeActivity;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -45,7 +47,6 @@ public class ControlTripActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control_trip);
-
         getCurrentTripUseCase = new GetCurrentTripUseCase(getApplicationContext());
         startNewTripUseCase = new StartNewTripUseCase(getApplicationContext());
         handler = new Handler(){
