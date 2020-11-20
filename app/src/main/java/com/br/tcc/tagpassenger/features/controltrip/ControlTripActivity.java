@@ -1,14 +1,19 @@
 package com.br.tcc.tagpassenger.features.controltrip;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
@@ -16,6 +21,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -26,6 +32,8 @@ import com.br.tcc.tagpassenger.R;
 import com.br.tcc.tagpassenger.domain.passenger.Passenger;
 import com.br.tcc.tagpassenger.domain.trip.Trip;
 import com.br.tcc.tagpassenger.features.home.HomeActivity;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -133,15 +141,66 @@ public class ControlTripActivity extends AppCompatActivity {
         CurrentTripDto currentTrip = getCurrentTripUseCase.execute();
 
         List<Passenger> data = currentTrip.getPassengers();
+        getSupportActionBar().setDisplayOptions(getSupportActionBar().getDisplayOptions()
+                | getSupportActionBar().DISPLAY_SHOW_CUSTOM);
+        ImageView imageBusIda = new ImageView(getSupportActionBar().getThemedContext());
+        imageBusIda.setScaleType(ImageView.ScaleType.FIT_END);
+        imageBusIda.setImageResource(R.drawable.icon_bus_ida);
+        ActionBar.LayoutParams layoutParamsBusIda = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT
+                | Gravity.CENTER_VERTICAL);
+        imageBusIda.setLayoutParams(layoutParamsBusIda);
 
+        imageBusIda.setClickable(true);
+        imageBusIda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciaNovaViagem();
+
+            }
+        });
+
+        getSupportActionBar().setDisplayOptions(getSupportActionBar().getDisplayOptions()
+                | getSupportActionBar().DISPLAY_SHOW_CUSTOM);
+        ImageView imageBusVolta = new ImageView(getSupportActionBar().getThemedContext());
+        imageBusVolta.setScaleType(ImageView.ScaleType.FIT_END);
+        imageBusVolta.setImageResource(R.drawable.icon_bus_volta);
+        ActionBar.LayoutParams layoutParamsBusVolta = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT
+                | Gravity.CENTER_VERTICAL);
+        imageBusVolta.setLayoutParams(layoutParamsBusVolta);
+        imageBusVolta.setClickable(true);
+        imageBusVolta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciaNovaViagem();
+            }
+        });
+
+        ConstraintLayout layout = new ConstraintLayout(this);
         int rows = currentTrip.getPassengers().size();
         String tipoViagem = "Ida";
         if(currentTrip.getTrip().getTrip() != null){
             tipoViagem = "Volta";
+            layout.addView(imageBusVolta);
+        }else{
+            layout.addView(imageBusIda);
         }
 
+
+
+        TextView title = new TextView(this);
+        title.setTextSize(18);
+        title.setTextColor(Color.WHITE);
+        title.setText("Passageiros (" + rows + ") - Viagem de " + tipoViagem);
+
+        layout.addView(title);
+
+        getSupportActionBar().setCustomView(layout);
+
         //set number of passengers
-        getSupportActionBar().setTitle("Passageiros (" + rows + ") - Viagem de " + tipoViagem);
 
         //Formarter configs
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");
@@ -394,6 +453,15 @@ public class ControlTripActivity extends AppCompatActivity {
                 trSep.addView(tvSep);
                 mTableLayout.addView(trSep, trParamsSep);
             }
+        }
+    }
+
+    private void iniciaNovaViagem(){
+        try {
+            startNewTripUseCase.execute();
+            startLoadData();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
     class LoadDataTask extends AsyncTask<Integer, Integer, String> {
